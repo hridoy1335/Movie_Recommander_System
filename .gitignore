@@ -130,6 +130,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+recommender
 env/
 venv/
 ENV/
