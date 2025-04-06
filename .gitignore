@@ -131,6 +131,8 @@ celerybeat.pid
 .env
 .venv
 recommender
+.recommender
+recommender/
 env/
 venv/
 ENV/
