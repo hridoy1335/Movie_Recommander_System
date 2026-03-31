@@ -1,0 +1,46 @@
+# This is a Databricks asset bundle definition for movie_recommander.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: movie_recommander
+  uuid: 34481314-7893-4761-98c3-a0dc886fde69
+
+include:
+  - resources/*.yml
+
+artifacts:
+  python_artifact:
+    type: whl
+    build: uv build --wheel
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+variables:
+  catalog:
+    description: The catalog to use
+  schema:
+    description: The schema to use
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-f5635c5f-848f.cloud.databricks.com
+    variables:
+      catalog: hk
+      schema: dev
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-f5635c5f-848f.cloud.databricks.com
+      # We explicitly deploy to /Workspace/Users/rkhridoyinfo@gmail.com to make sure we only have a single copy.
+      root_path: /Workspace/Users/rkhridoyinfo@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: hk
+      schema: prod
+    permissions:
+      - user_name: rkhridoyinfo@gmail.com
+        level: CAN_MANAGE
