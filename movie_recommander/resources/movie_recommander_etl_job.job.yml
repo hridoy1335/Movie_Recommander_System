@@ -1,0 +1,20 @@
+resources:
+  jobs:
+    movie_recommander_etl_job:
+      name: movie_recommander_etl_job
+      schedule:
+        quartz_cron_expression: 9 42 6 * * ?
+        timezone_id: Asia/Dhaka
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: pipeline-task-5faca89a-fa47-4612-8813-a8d58c46f97f
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.movie_recommander_etl.id}
+      notification_settings:
+        no_alert_for_skipped_runs: true
+      email_notifications:
+        no_alert_for_skipped_runs: true
+        on_failure:
+          - rkhridoyinfo@gmail.com
+      queue:
+        enabled: true
