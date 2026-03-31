@@ -7,21 +7,10 @@ from pyspark.sql.functions import *
 # using "+ Add" in the file browser.
 
 
-@dp.table
+@dp.table()
 def bronze_movie():
-    # Read from the "sample_trips" table, then sum all the fares
+    # Ingest movie data from volume using Auto Loader
     return (
-        spark.readStream.table("/Workspace/Users/rkhridoyinfo@gmail.com/Movie_Recommander_System/artifacts/movies_data.csv")
-    )
-
-@dp.table
-def bonze_credit():
-    return (
-        spark.readStream.table("/Workspace/Users/rkhridoyinfo@gmail.com/Movie_Recommander_System/artifacts/tmdb_5000_credits.csv")
-    )
-
-@dp.table
-def bronze_metadata():
-    return (
-        spark.readStream.table("/Workspace/Users/rkhridoyinfo@gmail.com/Movie_Recommander_System/artifacts/tmdb_5000_movies.csv")
+        spark.readStream.format("delta")
+        .load("/Volumes/hk/bronze/product")
     )
