@@ -7,8 +7,8 @@ from pyspark.sql.functions import *
 # using "+ Add" in the file browser.
 
 
-@dp.table()
-def bronze_movie():
+@dp.table
+def product():
     # Ingest movie data from volume using Auto Loader
     return (
         spark.readStream.format("delta")
