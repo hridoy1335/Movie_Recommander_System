@@ -8,20 +8,9 @@ from pyspark.sql.functions import *
 
 
 @dp.table
-def bronze_movie():
+def product():
     # Read from the "sample_trips" table, then sum all the fares
     return (
-        spark.readStream.table("/Workspace/Users/rkhridoyinfo@gmail.com/Movie_Recommander_System/artifacts/movies_data.csv")
-    )
-
-@dp.table
-def bonze_credit():
-    return (
-        spark.readStream.table("/Workspace/Users/rkhridoyinfo@gmail.com/Movie_Recommander_System/artifacts/tmdb_5000_credits.csv")
-    )
-
-@dp.table
-def bronze_metadata():
-    return (
-        spark.readStream.table("/Workspace/Users/rkhridoyinfo@gmail.com/Movie_Recommander_System/artifacts/tmdb_5000_movies.csv")
+        spark.readStream.format("delta")
+        .load("/Volumes/hk/bronze/product")
     )
